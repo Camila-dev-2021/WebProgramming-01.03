@@ -26,6 +26,22 @@
        <tbody id="cliente"></tbody>
     </table>
 
+    <br>
+
+
+
+    Carro: <select id="carro" onclick="buscarCarro()"> </select><br><br>
+
+
+    <input type="button" value="Buscar Matérias" onclick="buscarMateria()"/>
+
+    <table border="1">
+        <tr> 
+            <th>Matéria</th>
+        </tr>
+       <tbody id="materia"></tbody>
+    </table>
+
 
 </body>
 
@@ -67,6 +83,48 @@
         document.getElementById("cidade").value = data.localidade;
 
     }
+
+
+
+    function buscarCarro(){
+        fetch('https://demo4982944.mockable.io/Carros')
+        .then(response => response.json())
+        .then(data => criarListaCarro(data))
+        .catch(error => alert(error))
+    }
+
+    let testar = false;
+
+    function criarListaCarro(data){
+        if(testar == false){
+            for(let i=0; i<data.length; i++){
+                let item = `<option>${data[i]}</option>`;
+                document.getElementById("carro").innerHTML += item;
+                testar = true;
+            }
+        }
+    }
+
+    
+
+    function buscarMateria(){
+        fetch('https://demo4982944.mockable.io/Mat%C3%A9rias')
+        .then(response => response.json())
+        .then(data => criarListaMateria(data))
+        .catch(error => alert(error))
+    }
+
+    function criarListaMateria(data){
+        debugger;
+        for(let i = 0; i < data.length; i++){
+
+            let item = `<tr> 
+                <td>${data[i]}</td>
+                </tr>`
+            document.getElementById("materia").innerHTML += item;
+        }
+    }
+
 
 
 </script>
