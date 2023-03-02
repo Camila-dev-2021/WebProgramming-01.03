@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Departamento</title>
+</head>
+<body>
+
+    <hr>
+    <h3>Endereço</h3>
+    <p>Cep: <input type:"text" id="cep": onblur="buscarCep(this.value)"/></p>
+    <p>Rua: <input type:"text" id="rua"/></p>
+    <p>Bairro: <input type:"text" id="bairro"/></p>
+    <p>Cidade: <input type: "text" id="cidade"/></p> 
+
+    <input type="button" value="Buscar clientes" onclick="buscarClientes()"/>
+
+    <table border="1">
+        <tr> 
+            <th>Nome</th>
+            <th>Endereço</th>
+            <th>Telefone</th>
+        </tr>
+       <tbody id="cliente"></tbody>
+    </table>
+
+
+</body>
+
+<script>
+
+    function buscarClientes(){
+        fetch("https://demo1785948.mockable.io/ex2")
+        .then (response => response.json())
+        .then (data => criarListaClientes(data))
+        .catch(error => alert(error))
+    }
+
+    function criarListaClientes(data){
+        debugger;
+        for(let i = 0; i < data.length; i++){
+
+            let item = `<tr> 
+                <td>${data[i].nome}</td>
+                <td>${data[i].endereco}</td>
+                <td>${data[i].telefone}</td>
+                </tr>`
+            document.getElementById("cliente").innerHTML += item;
+        }
+    }
+
+
+    function buscarCep(cep){
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(response => response.json())
+        .then(data => preencherCep(data))
+        .catch(error => alert(error))
+
+    }
+
+    function preencherCep(data){
+        console.log(data);
+        document.getElementById("rua").value = data.logradouro;
+        document.getElementById("bairro").value = data.bairro;
+        document.getElementById("cidade").value = data.localidade;
+
+    }
+
+
+</script>
+</html>
